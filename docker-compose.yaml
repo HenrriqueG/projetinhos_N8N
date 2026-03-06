@@ -1,0 +1,30 @@
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_SECURE_COOKIE=false
+      - TZ=America/Sao_Paulo
+      # Substitua pela URL do seu túnel (ngrok/localtunnel) quando for usar o GitHub
+      # - WEBHOOK_URL=https://sua-url-do-tunel.com
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+    depends_on:
+      - ollama  
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: always
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+volumes:
+  n8n_data:
+  ollama_data:
